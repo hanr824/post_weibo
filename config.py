@@ -1,7 +1,7 @@
 
 
 
-NAME = '18680325804'
-PASSWD = 'helin4881245'
+NAME = ''
+PASSWD = ''
 USERID = '6246650082'
 USERNAME = 'ThelateSummer'

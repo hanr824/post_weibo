@@ -1,19 +1,14 @@
-
-import base64
-import time
-
 import requests
-
+import base64
 from config import USERID,USERNAME
-from get_pic import get_link
-from get_text import get_main
-
+import time
 
 
 with open('cookies','r') as f:
 	content = f.read()
 cookies = eval(content)
-
+F = open('img_url','r')
+G = open('text.txt','rb')
 
 def get_data(url):
 	#pre_url='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550151117959&di=51e635be142b017ffa877907348086c0&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Fc%2F567a6bc736e71.jpg'
@@ -26,7 +21,7 @@ def get_data(url):
 
 	return data
 
-def get_pic_pid(data,USERID,USERNAME):
+def get_pic(data,USERID,USERNAME):
 	headers = {
     # "Host":"login.sina.com.cn",
     "Connection":"keep-alive",
@@ -75,21 +70,24 @@ def post_weibo():
 	
 		
 	while True:	
-		print('----1---')
-		try:
-			img = get_link()
-			print(img)
-			datas = get_data(img)
-			pid = get_pic_pid(datas,USERID,USERNAME)
+		try:	
+			pre_url = F.readline().replace('\n','')
+			print(pre_url)
 			
-			
+			datas = get_data(pre_url)
+			pid = get_pic(datas,USERID,USERNAME)
 		except:
 			pid = '006OKj2Gly1g084uj8x5rj31c00u043h'
-		print(pid)
-		text = get_main()
-		print('text')
-
+			
+			
+		with open('cookies','r') as f:
+			content = f.read()
+		cookies = eval(content)
+			
+			
+		text = G.readline().decode('utf-8')
 		
+		print(text)
 
 		data ={
 			'location':'v6_content_home',
