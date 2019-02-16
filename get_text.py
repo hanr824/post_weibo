@@ -1,15 +1,10 @@
-
+import requests
+from lxml import etree
 import re 
 import time
 
-import requests
-from lxml import etree
-
 
 from config import USERID,USERNAME
-
-
-use_text=[]
 
 headers = {
 	    # "Host":"login.sina.com.cn",
@@ -20,21 +15,22 @@ headers = {
 	    "Accept-Language":"zh-CN,zh;q=0.9",
 	    }
 
-def get_page_url(i):
-	'''获取每页的帖子链接'''
-	url = 'https://www.duanwenxue.com/shige/aiqingshiju/'+i
+def get_page_url(url):
 	res = requests.get(url,headers=headers)
 	html = etree.HTML(res.text)
 	links = html.xpath('//div[@class="list-base-article"]/ul/li/a/@href')
 	for link in links:
-		get_text(link)
+		url = 'https://www.duanwenxue.com'+link
+		#print(url)
+		get_text(url)
 		
 
-def get_main():
-
-	'''获取分页链接'''
+def get_main_url():
+	CON = []
 
 	url = 'https://www.duanwenxue.com/shige/aiqingshiju/'
+	
+
 	resp = requests.get(url,headers=headers)
 	#html = etree.HTML(resp.text)
 	#con = html.xpath('//div[@class="list-base-article"]/ul/li/a/@href')
@@ -42,30 +38,34 @@ def get_main():
 	pattern = r'option value="(.*?)"'
 	list = re.findall(pattern,resp.text)
 	for i in list:
-		get_page_url(i)
+		url = 'https://www.duanwenxue.com/shige/aiqingshiju/'+i
+		get_page_url(url)
 		
-def get_text(link):
-		
-	url = 'https://www.duanwenxue.com'+link
-			#print(url)
+	
+	#print(CON)
+
+def get_text(url):
+
 	res= requests.get(url,headers=headers)
+
 	html = etree.HTML(res.text)
 	try:
 		texts = html.xpath('//div[@class="article-content"]/p')[0]
+	
 		t=texts.xpath('string(.)')
 		#for i in texts:
-		# if t not in use_text:
-		# 	use_text.append(t)
-		# 	#print(t)
-		return t
-		# else:
-		# 	pass
-		
+
+		post_text(t)
 	except:
 		pass
-
-			
 
 def save_text(t):
 	with open('text.txt','a',encoding='utf-8') as f:
 		f.write(t+'\n')
+
+	
+
+
+
+
+get_main_url()

@@ -11,3 +11,5 @@ cookies = COOKIE_PATH
 with open ("cookies","w") as f:
 	f.write(str(content))
 	print('flush successful')
+
+print ('--flush cookies successful--')
