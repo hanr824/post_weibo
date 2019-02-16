@@ -1,13 +1,12 @@
 import re 
 import time 
 import base64 
+import rsa
+import requests
 import binascii
 import math
 import random
 from urllib.parse import quote_plus
-
-import rsa
-import requests
 
 
 VERIFY_CODE_PATH = './{}.png'
