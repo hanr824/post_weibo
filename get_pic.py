@@ -1,6 +1,9 @@
 
 import requests
 from lxml import etree
+
+
+use_imgs=[]
  
 headers = {
     "Host":"tieba.baidu.com",
@@ -12,6 +15,8 @@ headers = {
     }
 
 def get_link():
+	'''获取帖子的id'''
+
 	url = 'http://tieba.baidu.com/limyoona'
 	resp = requests.get(url,headers= headers)
 	resp = resp.text
@@ -19,34 +24,42 @@ def get_link():
 	html = etree.HTML(res)
 	#print(resp.text)
 	try:
-		con = html.xpath('//div[@class="threadlist_lz clearfix"]/div/a/@href')
-		return con
+		cons = html.xpath('//div[@class="threadlist_lz clearfix"]/div/a/@href')
+		for con in cons:
+			get_pic_link(con)
+
 	except:
 		pass
 
-def get_pic_link(url):
+def get_pic_link(con):
+	''' 获取图片url'''
+	pre_url = 'http://tieba.baidu.com'
+	url = pre_url + con
 	resp = requests.get(url,headers=headers)
 	html = etree.HTML(resp.text)
 	
 	imgs = html.xpath('//div[@class="d_post_content_main d_post_content_firstfloor"]/div/cc/div/img[@class="BDE_Image"]/@src')
 		
-			
-	#print(imgs)
-	
-	return imgs
-
-def write_imgs(imgs):
-	img_url = './img.txt'
 	for img in imgs:
-		with open('img_url','a') as f:
-			f.write(img+'\n')
+		# if img not in use_imgs:
+		# 	use_imgs.append(img)
+		# 	#print(img)
+		return img
+		# else:
+		# 	pass
+		
 
-def get_pic():
-	pre_url = 'http://tieba.baidu.com'
-	links = get_link()
-	for link in links:
-		url = pre_url + link
-		imgs = get_pic_link(url)
-		write_imgs(imgs)
+	
 
-get_pic()
+
+
+	
+	
+	
+		
+		
+		
+		
+			
+			
+
