@@ -1,5 +1,5 @@
 import time 
-from config import USERID,USERNAME
+from config.config import USERID,USERNAME
 import requests
 import base64
 

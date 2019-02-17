@@ -4,7 +4,7 @@ import time
 import requests
 from lxml import etree
 
-from config import USERID,USERNAME
+from config import config
 
 use_text=[]
 headers = {

@@ -4,9 +4,12 @@ import time
 
 import requests
 
-from config import USERID,USERNAME
-from get_pic import get_pic
-from get_text import get_text
+from config.config import USERID,USERNAME
+from GetMsg.get_pic import get_pic
+from GetMsg.get_text import get_text
+from GetCookies import flush_cookies
+
+
 
 
 
@@ -36,7 +39,7 @@ def get_pic_pid(data,USERID,USERNAME):
     }
     url = 'https://picupload.weibo.com/interface/pic_upload.php?cb=https%3A%2F%2Fweibo.com%2Faj%2Fstatic%2Fupimgback.html%3F_wv%3D5%26callback%3DSTK_ijax_{}&mime=image%2Fjpeg&data=base64&url=weibo.com%2Fu%2F{}&markpos=1&logo=1&nick=%40{}&marks=0&app=miniblog&s=rdxt&pri=null&file_source=1'
     url = url.format(str(int(time.time()*1000000)),USERID,USERNAME)
-    print(url)
+    #print(url)
     res = requests.post(url,data=data,cookies=cookies,headers=headers)
     if res.status_code ==200:
         pid =res.url.split("pid=")[-1]
@@ -86,7 +89,7 @@ def post_weibo():
             '_t':'0',
                 }
         resp = requests.post(url=url,data= data,headers=headers,cookies=cookies)
-        print(resp.status_code)
+        #print(resp.status_code)
         if resp.status_code ==200:
             print("successful")
             time.sleep(100)
@@ -94,5 +97,6 @@ def post_weibo():
             print('not successful')
 
 if __name__ == '__main__':
+    
     post_weibo()
 
