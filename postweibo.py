@@ -97,6 +97,5 @@ def post_weibo():
             print('not successful')
 
 if __name__ == '__main__':
-    
     post_weibo()
 
