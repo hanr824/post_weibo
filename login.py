@@ -11,8 +11,6 @@ import requests
 
 
 VERIFY_CODE_PATH = './{}.png'
-
-
 headers = {
     # "Host":"login.sina.com.cn",
     "Connection":"keep-alive",
@@ -55,8 +53,6 @@ def get_img(name,img_url):
 def get_redirect(post_url,data,name,session):
     resp = session.post(post_url,data=data,headers=headers)
     login_loop = resp.content.decode("GBK")
-    #print(login_loop)
-    
     pa = r'location\.replace\([\'"](.*?)[\'"]\)'
     print (re.findall(pa, login_loop)[0])
     return re.findall(pa, login_loop)[0]
@@ -69,7 +65,6 @@ def get_server_data(su):
     prelogin_url = pre_url + str(int(time.time()*1000))
     pre_data_res = requests.get(prelogin_url,headers = headers)
     server_data = eval(pre_data_res.content.decode('utf-8').replace('sinaSSOController.preloginCallBack',''))
-   #print(server_data)
     return server_data
 
 def login_no_pincode(name,passwd,session,server_data):
